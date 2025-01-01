@@ -7,7 +7,8 @@ The encryption algorith used is **AES-256-CBC** and the key and IV is derived fr
 
 ## Usage
 
-To use the tool, you can run it with the following commands in the different languages.
+To use the tool, you can run it with the following commands in the different languages.  
+You can run the tool with the `help` command to see all the available options. Below are some examples in each languange.
 
 > [!IMPORTANT]
 > It is recomended that, even if the examples shows it, you DO NOT enter the password in the terminal for security reasons. If you do not enter it, the tool will ask for it in the terminal.
