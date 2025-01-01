@@ -4,7 +4,8 @@ const crypto = require("crypto");
 
 // param constants
 const ENCRYPTION_ALGO = "aes-256-cbc";
-const SALT_PREFIX = "Salted__";
+const SALT_PREFIX = "Salted__"; // standard prefix used by openssl
+const KEY_LENGTH = 32;
 const PBKDF2_ALGO = "sha256";
 const PBKDF2_ROUNDS = 10000;
 const ENCRYPTED_CONTENT_ENCODING = "base64";
@@ -77,11 +78,11 @@ const deriveKeyAndIV = (password, salt) => {
     password,
     salt,
     PBKDF2_ROUNDS,
-    48, // 32 bytes for key + 16 bytes for IV
+    KEY_LENGTH + 16, // 32 bytes for key + 16 bytes for IV
     PBKDF2_ALGO
   );
-  const key = derivedKey.subarray(0, 32);
-  const iv = derivedKey.subarray(32);
+  const key = derivedKey.subarray(0, KEY_LENGTH);
+  const iv = derivedKey.subarray(KEY_LENGTH);
 
   return { key, iv };
 };
@@ -93,27 +94,30 @@ const pad = (data, blockSize) => {
 };
 
 const encrypt = async (content, password) => {
-  const salt = Buffer.concat([Buffer.from(SALT_PREFIX), crypto.randomBytes(8)]);
+  // Generate salt
+  const salt = crypto.randomBytes(8);
+  // Derive key and IV from password and salt using PBKDF2
   const { key, iv } = deriveKeyAndIV(password, salt);
 
-  let contentBuffer = Buffer.from(content, UNENCRYPTED_CONTENT_ENCODING);
-  // contentBuffer = pad(contentBuffer, 16); // AES block size is 16 bytes
+  const contentBuffer = Buffer.from(content, UNENCRYPTED_CONTENT_ENCODING);
 
   const cipher = crypto.createCipheriv(ENCRYPTION_ALGO, key, iv);
   cipher.setAutoPadding(true);
-  let encrypted = Buffer.concat([cipher.update(contentBuffer), cipher.final()]);
+  const encryptedContentBuffer = Buffer.concat([
+    cipher.update(contentBuffer),
+    cipher.final(),
+  ]);
 
-  const buffer = Buffer.alloc(salt.length + encrypted.length);
-  buffer.set(salt, 0);
-  buffer.set(encrypted, salt.length);
-  const encryptedContentB64 = buffer.toString(ENCRYPTED_CONTENT_ENCODING);
+  // the final buffer consist of the salt and the encrypted content
+  const finalBuffer = Buffer.concat([
+    // add the standard prefix that openssl uses for the salt
+    Buffer.from(SALT_PREFIX, "utf8"),
+    salt,
+    encryptedContentBuffer,
+  ]);
+  const finalB64 = finalBuffer.toString(ENCRYPTED_CONTENT_ENCODING);
 
-  console.log("Salt length:", salt.length);
-  console.log("Key length:", key.length);
-  console.log("IV length:", iv.length);
-  console.log("Encrypted buffer length:", encrypted.length);
-  console.log("Encrypted Base64 length:", encryptedContentB64.length);
-  return encryptedContentB64;
+  return finalB64;
 };
 
 const decrypt = async (encrypted, password) => {
