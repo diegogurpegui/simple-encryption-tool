@@ -87,12 +87,6 @@ const deriveKeyAndIV = (password, salt) => {
   return { key, iv };
 };
 
-const pad = (data, blockSize) => {
-  const paddingSize = blockSize - (data.length % blockSize);
-  const padding = Buffer.alloc(paddingSize, paddingSize);
-  return Buffer.concat([data, padding]);
-};
-
 const encrypt = async (content, password) => {
   // Generate salt
   const salt = crypto.randomBytes(8);
