@@ -1,16 +1,16 @@
 # Symmetric Encryption Tool
 
-This tool is a simple symmetric encryption tool that allows you to encrypt and decrypt content using a password. The encryption algorithm used is AES-256-CBC.<br/>
+This tool is a simple symmetric encryption tool that allows you to encrypt and decrypt content using a password.  
 The goal of this project is to have the same encryption/decryption mechamism written in several languages and make them all interoperable.
+
+The encryption algorith used is **AES-256-CBC** and the key and IV is derived from the password using **PBKDF2**. You can see the [default parameters](#default-parameters) below.
 
 ## Usage
 
 To use the tool, you can run it with the following commands in the different languages.
 
 > [!IMPORTANT]
-> It is recomended that, even if the examples shows it, you DO NOT enter the password
-> in the terminal for security reasons. If you do not enter it, the tool will ask for it
-> in the terminal.
+> It is recomended that, even if the examples shows it, you DO NOT enter the password in the terminal for security reasons. If you do not enter it, the tool will ask for it in the terminal.
 
 ### Bash
 
