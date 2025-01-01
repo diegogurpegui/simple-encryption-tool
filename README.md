@@ -5,53 +5,47 @@ The goal of this project is to have the same encryption/decryption mechamism wri
 
 ## Usage
 
-To use the tool, you can run it with the following commands:
+To use the tool, you can run it with the following commands in the different languages.
 
-### Encrypting Content
+> [!IMPORTANT]
+> It is recomended that, even if the examples shows it, you DO NOT enter the password
+> in the terminal for security reasons. If you do not enter it, the tool will ask for it
+> in the terminal.
 
-To encrypt content, you can run the following command:
+### Bash
 
-```bash
-node encrypt.js encrypt --text="Hello, World!" --output=encrypted.txt --password=myPassword
+```sh
+./encrypt.sh encrypt --text="Hello, World!" --output=encrypted.txt --password=myPassword
+./encrypt.sh decrypt --file=encrypted.txt --output=decrypted.txt --password=myPassword
 ```
 
-This command will encrypt the text "Hello, World!" using the password "myPassword" and save the encrypted content to the file "encrypted.txt".
+### Node.js (Javascript)
 
-### Decrypting Content
-
-To decrypt content, you can run the following command:
-
-```bash
+```sh
+node encrypt.js encrypt --text="Hello, World!" --output=encrypted.txt --password=myPassword
 node encrypt.js decrypt --file=encrypted.txt --output=decrypted.txt --password=myPassword
 ```
 
-This command will decrypt the content from the file "encrypted.txt" using the password "myPassword" and save the decrypted content to the file "decrypted.txt".
+### Python
+
+```sh
+python encrypt.py encrypt --text="hello world" --password="mypass"
+python encrypt.py decrypt --text="U2FsdGVkX..." --password="mypass"
+```
 
 ## Default Parameters
 
 By default, the tool uses the following parameters:
 
 - Encryption algorithm: `AES-256-CBC`
-- Salt prefix: `"Salted__"`
+- Key length: `32 bytes`
+- Salt prefix: `"Salted__"`  
+  This is used to follow "openssl" standard.
 - PBKDF2 algorithm: `sha256`
 - PBKDF2 rounds: `10000`
 - Encrypted content encoding: `base64`
 - Unencrypted content encoding: `utf8`
 
-## Interactive Mode
-
-The tool supports both command-line and interactive modes. You can specify the input content and password as arguments or enter them interactively.
-
-## License
-
-This tool is licensed under the MIT License.
-
 ## Contributing
 
 Contributions are welcome! If you find any issues or have suggestions for improvement, please open an issue or submit a pull request.
-
-## Contact
-
-If you have any questions or need further assistance, you can reach out to me at [your_email@example.com](mailto:your_email@example.com).
-
-I hope this helps! Let me know if you have any further questions.
