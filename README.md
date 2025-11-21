@@ -15,6 +15,14 @@ You can run the tool with the `help` command to see all the available options. B
 
 ### Bash
 
+Without password in terminal (recommended):
+```sh
+./encrypt.sh encrypt --text="Hello, World!" --output=encrypted.txt --password=myPassword
+./encrypt.sh decrypt --file=encrypted.txt --output=decrypted.txt --password=myPassword
+
+```
+
+With password in terminal:
 ```sh
 ./encrypt.sh encrypt --text="Hello, World!" --output=encrypted.txt --password=myPassword
 ./encrypt.sh decrypt --file=encrypted.txt --output=decrypted.txt --password=myPassword
@@ -22,13 +30,27 @@ You can run the tool with the `help` command to see all the available options. B
 
 ### Node.js (Javascript)
 
+Without password in terminal (recommended):
+```sh
+node encrypt.js encrypt --text="Hello, World!" --output=encrypted.txt
+node encrypt.js decrypt --file=encrypted.txt --output=decrypted.txt
+```
+
+With password in terminal:
+
 ```sh
 node encrypt.js encrypt --text="Hello, World!" --output=encrypted.txt --password=myPassword
 node encrypt.js decrypt --file=encrypted.txt --output=decrypted.txt --password=myPassword
 ```
 
 ### Python
+Without password in terminal (recommended):
+```sh
+python encrypt.py encrypt --text="hello world"
+python encrypt.py decrypt --text="U2FsdGVkX..."
+```
 
+With password in terminal:
 ```sh
 python encrypt.py encrypt --text="hello world" --password="mypass"
 python encrypt.py decrypt --text="U2FsdGVkX..." --password="mypass"
